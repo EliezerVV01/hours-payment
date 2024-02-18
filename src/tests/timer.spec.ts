@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import state from "../state";
 import { addHTML } from "../html";
-import { start } from "../timer";
+import { clear, start, stop } from "../timer";
 import { DOMElements } from "../utils/dom";
 
 const ONE_HOUR_MS = 3600 * 1000;
@@ -45,6 +45,86 @@ describe("start function", () => {
     vi.useRealTimers();
   });
 });
+
+
+describe("stop function", () => {
+  beforeEach(() => {
+    state.isRunning = false;
+    state.hours = 0;
+    state.payPerHour = 0;
+
+    document.body.innerHTML = `<div id="app"></div>`;
+    addHTML();
+
+    vi.useFakeTimers();
+  });
+
+  it("should stop the timer", () => {
+    start();
+    expect(state.isRunning).toBe(true);
+    DOMElements.payPerHour().value = "10";
+    start();
+    vi.advanceTimersByTime(ONE_HOUR_MS)
+    vi.runOnlyPendingTimers();
+    expect(DOMElements.payPerHour().value).toBe("10.00")
+    expect(DOMElements.hoursPay().innerHTML).toBe("10.00")
+    expect(DOMElements.hours().innerHTML).toBe("1:00:00")
+
+    stop();
+    vi.advanceTimersByTime(ONE_HOUR_MS)
+
+    vi.runOnlyPendingTimers();
+    expect(DOMElements.payPerHour().value).toBe("10.00")
+    expect(DOMElements.hoursPay().innerHTML).toBe("10.00")
+    expect(DOMElements.hours().innerHTML).toMatch("1:00")
+
+  });
+
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+});
+
+describe("clear function", () => {
+  beforeEach(() => {
+    state.isRunning = false;
+    state.hours = 0;
+    state.payPerHour = 0;
+
+    document.body.innerHTML = `<div id="app"></div>`;
+    addHTML();
+
+    vi.useFakeTimers();
+  });
+
+  it("should clear the input", () => {
+    start();
+    expect(state.isRunning).toBe(true);
+    DOMElements.payPerHour().value = "10";
+    start();
+    vi.advanceTimersByTime(ONE_HOUR_MS)
+    vi.runOnlyPendingTimers();
+    expect(DOMElements.payPerHour().value).toBe("10.00")
+    expect(DOMElements.hoursPay().innerHTML).toBe("10.00")
+    expect(DOMElements.hours().innerHTML).toBe("1:00:00")
+
+    stop();
+    clear();
+    vi.runOnlyPendingTimers();
+    expect(DOMElements.payPerHour().value).toBe("0.00")
+    expect(DOMElements.hoursPay().innerHTML).toBe("0.00")
+    expect(DOMElements.hours().innerHTML).toBe("0:00:00")
+
+  });
+
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+});
+
+
 
 describe("hours payment", () => {
   beforeEach(() => {

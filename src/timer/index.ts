@@ -19,6 +19,7 @@ export function start() {
 }
 
 export function updateHoursPayment() {
+  if(!state.isRunning) return;
   const crossedTime = Date.now() - state.lastUpdateTime;
   state.lastUpdateTime = Date.now();
   state.hours += fromMillisecondsToHour(crossedTime);
