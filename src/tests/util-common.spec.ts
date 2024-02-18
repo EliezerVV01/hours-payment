@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { convertHoursToHHMMSS, fromMillisecondsToHour } from "../utils/common";
 
-describe("convertHoursToHHMMSS", () => {
+describe("utils", () => {
   it("converts decimal hours to HH:MM:SS format", () => {
     expect(convertHoursToHHMMSS(1.5)).toBe("1:30:00");
     expect(convertHoursToHHMMSS(0.5)).toBe("0:30:00");
