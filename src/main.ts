@@ -1,7 +1,7 @@
 import { addHTML } from "./html";
 import state from "./state";
 import "./style.css";
-import { clear, start } from "./timer";
+import { clear, start, stop } from "./timer";
 import { DOMElements } from "./utils/dom";
 
 addHTML()
