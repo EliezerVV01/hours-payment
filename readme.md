@@ -14,7 +14,7 @@ Before you begin, ensure you have the following installed:
 
 1. Clone the repository:
  ```bash
- git clone https://yourrepositorylink.git
+ git clone git@github.com:EliezerVV01/hours-payment.git
  ```
 2. Navigate to the project directory:
 ```bash
